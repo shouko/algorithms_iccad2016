@@ -1,6 +1,9 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include "port.h"
+#include "gate.h"
+#include "wire.h"
 #include "graph.h"
 using namespace std;
 
@@ -32,25 +35,27 @@ int main() {
       // input, output, wire
       WireType type;
       if(tmp == "input") {
-        type = WireType.INPUT
+        type = WIRE_INPUT;
       } else if(tmp == "output") {
-        type = WireType.OUTPUT
+        type = WIRE_OUTPUT;
       } else if(tmp == "wire") {
-        type = WireType.NORMAL
+        type = WIRE_NORMAL;
       }
       while(ss.peek() != -1) {
         tmp = gets_nc(ss);
-        graph.addWire(tmp, wiretype);
+        graph.addWire(tmp, type);
       }
     } else {
       // gates
       GateType type;
       if(tmp == "NOT1") {
-        type = GateType.NOT1;
+        type = GATE_NOT1;
       } else if(tmp == "NAND2") {
-        type = GateType.NAND2;
+        type = GATE_NAND2;
       } else if(tmp == "NOR2") {
-        type = GateType.NOR2;
+        type = GATE_NOR2;
+      } else {
+        return -1;
       }
       ss >> tmp; // gate name
       Gate* gate = graph.addGate(tmp, type);
@@ -59,11 +64,12 @@ int main() {
         tmp = gets_nc(ss); // parameters like .A(b8)
         if(tmp[0] != ')') {
           PortName name = tmp[1];
-          tmp.erase(0, args.find_first_of('('));
+          tmp.erase(0, tmp.find_first_of('('));
           tmp.pop_back(); // pop out trailing ')'
-          graph->connectGateAndWire(gate, portName, tmp);
+          graph.connectGateAndWire(gate, name, tmp);
         }
       }
     }
   }
+  return 0;
 }

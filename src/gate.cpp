@@ -1,11 +1,10 @@
+#include "port.h"
 #include "gate.h"
-
-Gate::~Gate() {
-}
+#include "wire.h"
 
 void Gate::attachPort(Port* port) {
   port->setGate(this);
-  if(port->getType() == PortType.INPUT) {
+  if(port->getType() == PORT_INPUT) {
     inPorts.insert(make_pair(port->getName(), port));
   } else {
     outPorts.insert(make_pair(port->getName(), port));
@@ -15,5 +14,9 @@ void Gate::attachPort(Port* port) {
 Port* Gate::addPort(PortName name, PortType type) {
   Port* port = new Port(name, type);
   attachPort(port);
-  return Port;
+  return port;
+}
+
+const string Gate::getName() const {
+  return name;
 }

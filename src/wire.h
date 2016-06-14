@@ -1,16 +1,13 @@
 #ifndef _WIRE_H_
 #define _WIRE_H_
 
+#include <iostream>
 #include <map>
-#include "port.h"
+#include "common.h"
 using namespace std;
-typedef string WireName;
 
-enum WireType {
-  INPUT,
-  OUTPUT,
-  NORMAL
-};
+class Port;
+class Gate;
 
 class Wire {
 public:
