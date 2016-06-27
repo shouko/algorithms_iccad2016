@@ -14,6 +14,7 @@ public:
   ~Gate() {}
   Port* addPort(PortName name, PortType type);
   const string getName() const;
+  const GateType getType() const;
 private:
   void attachPort(Port* port);
   map<PortName, Port*> inPorts;

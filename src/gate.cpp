@@ -17,6 +17,10 @@ Port* Gate::addPort(PortName name, PortType type) {
   return port;
 }
 
-const string Gate::getName() const {
+const GateName Gate::getName() const {
   return name;
+}
+
+const GateType Gate::getType() const {
+  return type;
 }
