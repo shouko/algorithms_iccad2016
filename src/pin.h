@@ -1,23 +1,23 @@
-#ifndef _PORT_H_
-#define _PORT_H_
+#ifndef _PIN_H_
+#define _PIN_H_
 
 #include "common.h"
 
 class Wire;
 class Gate;
 
-class Port {
+class Pin {
 public:
-  Port(PortName name, PortType type) : name(name), type(type) {}
+  Pin(PinName name, PinType type) : name(name), type(type) {}
   void setWire(Wire* wire);
   void setGate(Gate* gate);
   const Wire* getWire() const;
   const Gate* getGate() const;
-  const PortType getType() const;
-  const PortName getName() const;
+  const PinType getType() const;
+  const PinName getName() const;
 private:
-  PortName name;
-  PortType type;
+  PinName name;
+  PinType type;
   Wire* wire;
   Gate* gate;
 };

@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace std;
 
-typedef char PortName;
+typedef char PinName;
 typedef string GateName;
 typedef string WireName;
 
-enum PortType {
-  PORT_INPUT,
-  PORT_OUTPUT
+enum PinType {
+  PIN_INPUT,
+  PIN_OUTPUT
 };
 
 enum GateType {

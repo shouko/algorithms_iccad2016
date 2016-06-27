@@ -30,8 +30,8 @@ all: sta
 # Executable #
 ##############
 sta: MAKEFLAGS = $(CFLAGS)
-sta: $(OUTDIR)/main.o $(OUTDIR)/gate.o $(OUTDIR)/graph.o $(OUTDIR)/port.o $(OUTDIR)/wire.o
-	cd $(OUTDIR); g++ -o $@ $(MAKEFLAGS) main.o gate.o graph.o port.o wire.o $(LIBFLAGS)
+sta: $(OUTDIR)/main.o $(OUTDIR)/gate.o $(OUTDIR)/graph.o $(OUTDIR)/pin.o $(OUTDIR)/wire.o
+	cd $(OUTDIR); g++ -o $@ $(MAKEFLAGS) main.o gate.o graph.o pin.o wire.o $(LIBFLAGS)
 	strip $(OUTDIR)/$@
 
 ################

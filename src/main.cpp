@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include "port.h"
+#include "pin.h"
 #include "gate.h"
 #include "wire.h"
 #include "graph.h"
@@ -63,7 +63,7 @@ int main() {
       while(ss.peek() != -1) {
         tmp = gets_nc(ss); // parameters like .A(b8)
         if(tmp[0] != ')') {
-          PortName name = tmp[1];
+          PinName name = tmp[1];
           tmp.erase(0, tmp.find_first_of('('));
           tmp.pop_back(); // pop out trailing ')'
           graph.connectGateAndWire(gate, name, tmp);

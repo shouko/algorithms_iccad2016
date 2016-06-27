@@ -5,20 +5,20 @@
 #include <map>
 using namespace std;
 
-class Port;
+class Pin;
 class Wire;
 
 class Gate {
 public:
   Gate(GateName name, GateType type) : type(type), name(name) {}
   ~Gate() {}
-  Port* addPort(PortName name, PortType type);
+  Pin* addPin(PinName name, PinType type);
   const string getName() const;
   const GateType getType() const;
 private:
-  void attachPort(Port* port);
-  map<PortName, Port*> inPorts;
-  map<PortName, Port*> outPorts;
+  void attachPin(Pin* pin);
+  map<PinName, Pin*> inPins;
+  map<PinName, Pin*> outPins;
   GateType type;
   GateName name;
 };

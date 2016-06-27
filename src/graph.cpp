@@ -29,12 +29,12 @@ Gate* Graph::addGate(GateName name, GateType type) {
   return gate;
 }
 
-void Graph::connectGateAndWire(Gate* gate, PortName portName, WireName wireName) {
-  PortType portType = PORT_INPUT;
-  if(portName == 'Y') {
-    portType = PORT_OUTPUT;
+void Graph::connectGateAndWire(Gate* gate, PinName pinName, WireName wireName) {
+  PinType pinType = PIN_INPUT;
+  if(pinName == 'Y') {
+    pinType = PIN_OUTPUT;
   }
-  Port* port = gate->addPort(portName, portType);
+  Pin* pin = gate->addPin(pinName, pinType);
   Wire* wire = getWire(wireName);
-  wire->attachPort(port);
+  wire->attachPin(pin);
 }

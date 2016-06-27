@@ -1,12 +1,12 @@
-#include "port.h"
+#include "pin.h"
 #include "wire.h"
 #include "gate.h"
 
-void Wire::attachPort(Port* port) {
-  if(port->getType() == PORT_INPUT) {
-    outs.insert(make_pair(make_pair(port->getGate()->getName(), port->getName()), port));
+void Wire::attachPin(Pin* pin) {
+  if(pin->getType() == PIN_INPUT) {
+    outs.insert(make_pair(make_pair(pin->getGate()->getName(), pin->getName()), pin));
   } else {
-    ins.insert(make_pair(make_pair(port->getGate()->getName(), port->getName()), port));
+    ins.insert(make_pair(make_pair(pin->getGate()->getName(), pin->getName()), pin));
   }
-  port->setWire(this);
+  pin->setWire(this);
 }

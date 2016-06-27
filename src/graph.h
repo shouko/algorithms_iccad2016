@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "wire.h"
-#include "port.h"
+#include "pin.h"
 #include "gate.h"
 using namespace std;
 
@@ -15,7 +15,7 @@ public:
   void addWire(WireName name);
   void addWire(WireName name, WireType type);
   Gate* addGate(GateName name, GateType type);
-  void connectGateAndWire(Gate* gate, PortName portName, WireName wireName);
+  void connectGateAndWire(Gate* gate, PinName pinName, WireName wireName);
 private:
   map<WireName, Wire*> ins;
   map<WireName, Wire*> outs;

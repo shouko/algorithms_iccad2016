@@ -6,18 +6,18 @@
 #include "common.h"
 using namespace std;
 
-class Port;
+class Pin;
 class Gate;
 
 class Wire {
 public:
   Wire(WireName name) : name(name) {}
   ~Wire() {}
-  void attachPort(Port* port);
+  void attachPin(Pin* pin);
 private:
   WireName name;
-  map<pair<GateName, PortName>, Port*> ins;
-  map<pair<GateName, PortName>, Port*> outs;
+  map<pair<GateName, PinName>, Pin*> ins;
+  map<pair<GateName, PinName>, Pin*> outs;
 };
 
 #endif
