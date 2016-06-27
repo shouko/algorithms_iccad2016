@@ -25,4 +25,11 @@ enum WireType {
   WIRE_NORMAL
 };
 
+enum Fast {
+  FAST_A,
+  FAST_B,
+  FAST_EQ,
+  FAST_UNKNOWN
+};
+
 #endif
