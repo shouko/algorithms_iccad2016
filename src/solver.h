@@ -20,6 +20,8 @@ private:
   vector<pair<bool, bool>> getChoice(Gate* n, bool output);
   bool checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin);
   bool checkIfTwoPinConflict(Gate* n, pair<bool, bool> c);
+  inline bool conflictListContains(Gate* n, bool a, bool b);
+  inline void conflictListInsert(Gate* n, bool a, bool b);
 };
 
 #endif

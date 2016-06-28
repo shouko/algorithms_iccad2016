@@ -1,6 +1,14 @@
 #include "solver.h"
 
-void findTruePath(Gate* n, bool output, int count) {
+inline bool Solver::conflictListContains(Gate* n, bool a, bool b) {
+  return conflictList.find(make_tuple(n, a, b)) != conflictList.end();
+}
+
+inline void conflictListInsert(Gate* n, bool a, bool b) {
+  return conflictList.insert(make_tuple(n, a, b));
+}
+
+void Solver::findTruePath(Gate* n, bool output, int count) {
   count++;
   if(count > slack)
     return;
@@ -19,7 +27,7 @@ void findTruePath(Gate* n, bool output, int count) {
 
   //deal with the a pin first
   for(auto c : choice) {
-    if(conflictList.find(make_tuple(n, c.first, c.second)) == conflictList.end()) {
+    if(!conflictListContains(n, c.first, c.second)) {
       if(checkDelayCouldBeTrue(n, c, faster, 0)) {
         next = n.nexta;
         n.set_a_pin_input = c.first;
@@ -28,9 +36,9 @@ void findTruePath(Gate* n, bool output, int count) {
           if(checkIfInputConflict(next, c.first)) {
             continue;
           } else {
-            if(conflictList.find(make_tuple(n, c.first, !c.second)) == conflictList.end()) {
+            if(!conflictListContains(n, c.first, !c.second)) {
               if(checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictList.insert(make_tuple(n, c.first, c.second));
+                conflictListInsert(n, c.first, c.second);
                 continue;
               } else{
                 answer_inpur[next.number] = c.first;
@@ -57,9 +65,9 @@ void findTruePath(Gate* n, bool output, int count) {
           }
         } else{
         //when next != input
-          if(conflictList.find(make_tuple(n, c.first, !c.second)) == conflictList.end()) {
+          if(!conflictListContains(n, c.first, !c.second)) {
             if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictList.insert(make_tuple(n, c.first, c.second));
+              conflictListInsert(n, c.first, c.second);
               continue;
             } else{  answer_inpur[next.number] = c.second;
               answer_deck.insert(n);
@@ -80,7 +88,7 @@ void findTruePath(Gate* n, bool output, int count) {
 
   //deal with the b pin secand
   for(auto c : choice) {
-    if(!conflictList.find(make_tuple(n, c.first, c.second)) != conflictList.end()) {
+    if(!conflictListContains(n, c.first, c.second)) {
       if(checkDelayCouldBeTrue(n, c, faster, 1)) {
         next = n.nextb;
         n.set_a_pin_input = c.first;
@@ -89,9 +97,9 @@ void findTruePath(Gate* n, bool output, int count) {
           if(checkIfInputConflict(next, c.second)) {
             continue;
           } else {
-            if(!conflictList.find(make_tuple(n, c.first, c.second)) != conflictList.end()) {
+            if(!conflictListContains(n, c.first, c.second)) {
               if(!checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictList.insert(make_tuple(n, c.first, c.second));
+                conflictListInsert(n, c.first, c.second);
                 continue;
               } else{  answer_inpur[next.number] = c.second;
                 answer_deck.insert(n);
@@ -119,7 +127,7 @@ void findTruePath(Gate* n, bool output, int count) {
         //when next != input
           if(!conflictList.cotains(Gate* n, !c.first, c.second)) {
             if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictList.insert(make_tuple(n, c.first, c.second));
+              conflictListInsert(n, c.first, c.second);
               continue;
             } else{
               answer_deck.insert(n);
@@ -138,7 +146,7 @@ void findTruePath(Gate* n, bool output, int count) {
   }
 }
 
-vector<pair<bool, bool>> getChoice(Gate* n, bool output) {
+vector<pair<bool, bool>> Solver::getChoice(Gate* n, bool output) {
   vector<pair<bool, bool>> vec;
   GateType type = n->getType();
   if(type == GATE_NOT1) {
@@ -166,7 +174,7 @@ vector<pair<bool, bool>> getChoice(Gate* n, bool output) {
   }
 }
 
-bool checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin) {
+bool Solver::checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin) {
   GateType type = n->getType();
   if(type == GATE_NOT1) {
     return true;
@@ -194,7 +202,7 @@ bool checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin) {
   return false;
 }
 
-bool checkIfTwoPinConflict(Gate* n, c.first, c.second) {
+bool Solver::checkIfTwoPinConflict(Gate* n, c.first, c.second) {
   //not shure if it is okay
   for each input both in pin a and pin b
     checklist.add(input, Gate* n);
