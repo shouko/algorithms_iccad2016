@@ -36,8 +36,7 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
           n->getInPin('A')->setVal(c.first);
           n->getInPin('B')->setVal(c.second);
           if(next == 0) {
-            if(!conflictListContains(n, c.first, !c.second) && checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictListInsert(n, c.first, c.second);
+            if(conflictListContains(n, c.first, !c.second)) {
               continue;
             } else{
               answerInput[next.number] = get<i>(c);
@@ -59,19 +58,10 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
               cond = conflictListContains(n, !c.first, c.second);
             }
             if(!cond) {
-              if(checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictListInsert(n, c.first, c.second);
-                continue;
-              } else{
-                if(i == 0) answerInput[next.number] = c.second;
-                answerStack.insert(n);
-                answerStack.insert(n->getInPin(i)->getWire());
-                findTruePath(next, get<i>(c));
-                continue;
-              }
+              continue;
             } else{
               answerStack.insert(n);
-              answerStack.insert(n.wirea);
+              answerStack.insert(n->getInPin(i)->getWire());
               findTruePath(next, get<i>(c));
               continue;
             }
@@ -137,11 +127,4 @@ bool Solver::checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int 
     }
   }
   return false;
-}
-
-bool Solver::checkIfTwoPinConflict(Gate* n, c.first, c.second) {
-  //not shure if it is okay
-  for each input both in pin a and pin b
-    checklist.add(input, Gate* n);
-  return ture;
 }
