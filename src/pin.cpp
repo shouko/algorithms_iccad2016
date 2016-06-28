@@ -10,11 +10,11 @@ void Pin::setWire(Wire* wire) {
   this->wire = wire;
 }
 
-const Gate* Pin::getGate() const {
+Gate* Pin::getGate() const {
   return gate;
 }
 
-const Wire* Pin::getWire() const {
+Wire* Pin::getWire() const {
   return wire;
 }
 
@@ -26,10 +26,10 @@ const PinType Pin::getType() const {
   return type;
 }
 
-void setVal(bool val) {
+void Pin::setVal(bool val) {
   this->val = val;
 }
 
-const bool getVal() const {
+const bool Pin::getVal() const {
   return val;
 }

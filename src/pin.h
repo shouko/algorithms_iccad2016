@@ -12,8 +12,8 @@ public:
   void setWire(Wire* wire);
   void setGate(Gate* gate);
   void setVal(bool val);
-  const Wire* getWire() const;
-  const Gate* getGate() const;
+  Wire* getWire() const;
+  Gate* getGate() const;
   const PinType getType() const;
   const PinName getName() const;
   const bool getVal() const;

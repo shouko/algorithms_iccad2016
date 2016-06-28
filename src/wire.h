@@ -15,6 +15,7 @@ public:
   ~Wire() {}
   void attachPin(Pin* pin);
   Gate* getInputGate() const;
+  const WireName getName() const;
 private:
   WireName name;
   map<pair<GateName, PinName>, Pin*> ins;

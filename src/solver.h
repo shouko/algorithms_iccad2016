@@ -2,21 +2,17 @@
 #define _SOLVER_H_
 
 #include <set>
+#include <map>
 #include <vector>
 #include <tuple>
-#include <pair>
+#include <utility>
 #include <stack>
 #include "common.h"
+#include "answerstack.h"
 
-typedef union AnsEntry {
-  Gate* g;
-  Wire* w;
-} AnsEntry;
-
-enum AnsEntryType {
-  ANS_GATE,
-  ANS_WIRE
-}
+class Graph;
+class Gate;
+class Wire;
 
 class Solver {
 public:
@@ -24,18 +20,18 @@ public:
   ~Solver() {}
   void solve();
 private:
-  int slack;
   Graph* graph;
+  int slack;
   set<tuple<Gate*, bool, bool>> conflictList;
-  stack<pair<AnsEntryType, AnsEntry>> answerStack;
+  AnswerStack answerStack;
+  map<WireName, bool> answerInput;
   void findTruePath(Gate* n, bool output, int count);
   vector<pair<bool, bool>> getChoice(Gate* n, bool output);
   bool checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin);
   bool checkIfTwoPinConflict(Gate* n, pair<bool, bool> c);
+  Fast getWhoIsFaster(Gate* n);
   inline bool conflictListContains(Gate* n, bool a, bool b);
   inline void conflictListInsert(Gate* n, bool a, bool b);
-  inline void answerStackInsert(Gate* g);
-  inline void answerStackInsert(Wire* w);
 };
 
 #endif

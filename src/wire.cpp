@@ -11,6 +11,10 @@ void Wire::attachPin(Pin* pin) {
   pin->setWire(this);
 }
 
-Gate* getInputGate() const {
+Gate* Wire::getInputGate() const {
   return ins.begin()->second->getGate();
+}
+
+const WireName Wire::getName() const {
+  return name;
 }

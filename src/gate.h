@@ -17,10 +17,10 @@ public:
   const GateType getType() const;
   void setCheck(bool toCheck);
   const bool getCheck() const;
-  const Gate* getPrev(PinName name) const;
-  const Gate* getPrev(int num) const;
-  const Pin* getInPin(PinName name) const;
-  const Pin* getInPin(int num) const;
+  Gate* getPrev(PinName name) const;
+  Gate* getPrev(int num) const;
+  Pin* getInPin(PinName name) const;
+  Pin* getInPin(int num) const;
 private:
   void attachPin(Pin* pin);
   map<PinName, Pin*> inPins;

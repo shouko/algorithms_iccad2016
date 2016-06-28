@@ -32,15 +32,15 @@ const bool Gate::getCheck() const {
   return toCheck;
 }
 
-const Gate* getPrev(PinName name) const {
-  Pin* pin = getInPin(name);
+Gate* Gate::getPrev(PinName name) const {
+  const Pin* pin = getInPin(name);
   if(pin == 0) {
     return 0;
   }
   return pin->getWire()->getInputGate();
 }
 
-const Gate* getPrev(int num) const {
+Gate* Gate::getPrev(int num) const {
   if(num == 0) {
     return getPrev('A');
   } else if(num == 1) {
@@ -50,7 +50,7 @@ const Gate* getPrev(int num) const {
   }
 }
 
-const Pin* getInPin(PinName name) const {
+Pin* Gate::getInPin(PinName name) const {
   auto pin_it = inPins.find(name);
   if(pin_it == inPins.end()) {
     return 0;
@@ -58,7 +58,7 @@ const Pin* getInPin(PinName name) const {
   return pin_it->second;
 }
 
-const Pin* getInPin(int num) const {
+Pin* Gate::getInPin(int num) const {
   if(num == 0) {
     return getInPin('A');
   } else if(num == 1) {
