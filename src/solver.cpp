@@ -28,122 +28,56 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
   }
 
   //deal with the a pin first
-  for(auto c : choice) {
-    if(!conflictListContains(n, c.first, c.second)) {
-      if(checkDelayCouldBeTrue(n, c, faster, 0)) {
-        next = n.nexta;
-        n.set_a_pin_input = c.first;
-        n.set_b_pin_input = c.second;
-        if(next.type = input) {
-          if(checkIfInputConflict(next, c.first)) {
-            continue;
-          } else {
-            if(!conflictListContains(n, c.first, !c.second)) {
+  for(int i = 0; i < 2; i++) {
+    for(auto c : choice) {
+      if(!conflictListContains(n, c.first, c.second)) {
+        if(checkDelayCouldBeTrue(n, c, faster, i)) {
+          next = n->getPrev(i);
+          n->getInPin('A')->setVal(c.first);
+          n->getInPin('B')->setVal(c.second);
+          if(next == 0) {
+            if(!conflictListContains(n, c.first, !c.second) && checkIfTwoPinConflict(n, c.first, c.second)) {
+              conflictListInsert(n, c.first, c.second);
+              continue;
+            } else{
+              answerInput[next.number] = get<i>(c);
+              answerStack.insert(n);
+              answerStack.insert(n->getInPin(i)->getWire());
+              if(answerStack.check) {
+                answerStack.print;
+              }
+              answerStack.pop();
+              answerStack.pop();
+              continue;
+            }
+          } else{
+          //when next != input
+            bool cond;
+            if(i == 0) {
+              cond = conflictListContains(n, c.first, !c.second);
+            } else {
+              cond = conflictListContains(n, !c.first, c.second);
+            }
+            if(!cond) {
               if(checkIfTwoPinConflict(n, c.first, c.second)) {
                 conflictListInsert(n, c.first, c.second);
                 continue;
               } else{
-                answer_inpur[next.number] = c.first;
+                if(i == 0) answerInput[next.number] = c.second;
                 answerStack.insert(n);
-                answerStack.insert(n.wirea);
-                if(answerStack.check) {
-                  answerStack.print;
-                }
-                answerStack.del;
-                answerStack.del;
+                answerStack.insert(n->getInPin(i)->getWire());
+                findTruePath(next, get<i>(c));
                 continue;
               }
             } else{
-              answer_inpur[next.number] = c.first;
               answerStack.insert(n);
               answerStack.insert(n.wirea);
-              if(answerStack.check) {
-                answerStack.print;
-              }
-              answerStack.del;
-              answerStack.del;
+              findTruePath(next, get<i>(c));
               continue;
             }
-          }
-        } else{
-        //when next != input
-          if(!conflictListContains(n, c.first, !c.second)) {
-            if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictListInsert(n, c.first, c.second);
-              continue;
-            } else{  answer_inpur[next.number] = c.second;
-              answerStack.insert(n);
-              answerStack.insert(n.wirea);
-              findTruePath(next, c.first);
-              continue;
-            }
-          } else{
-            answerStack.insert(n);
-            answerStack.insert(n.wirea);
-            findTruePath(next, c.first);
-            continue;
           }
         }
       }
-    }
-  }
-
-  //deal with the b pin secand
-  for(auto c : choice) {
-    if(!conflictListContains(n, c.first, c.second)) {
-      if(checkDelayCouldBeTrue(n, c, faster, 1)) {
-        next = n.nextb;
-        n.set_a_pin_input = c.first;
-        n.set_b_pin_input = c.second;
-        if(next.type = input) {
-          if(checkIfInputConflict(next, c.second)) {
-            continue;
-          } else {
-            if(!conflictListContains(n, c.first, c.second)) {
-              if(!checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictListInsert(n, c.first, c.second);
-                continue;
-              } else{  answer_inpur[next.number] = c.second;
-                answerStack.insert(n);
-                answerStack.insert(n.wireb);
-                if(answerStack.check) {
-                  answerStack.print;
-                }
-                answerStack.del;
-                answerStack.del;
-                continue;
-              }
-            } else {
-              answer_inpur[next.number] = c.second;
-              answerStack.insert(n);
-              answerStack.insert(n.wireb);
-              if(answerStack.check) {
-                answerStack.print;
-              }
-              answerStack.del;
-              answerStack.del;
-              continue;
-            }
-          }
-        } else {
-        //when next != input
-          if(!conflictList.cotains(Gate* n, !c.first, c.second)) {
-            if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictListInsert(n, c.first, c.second);
-              continue;
-            } else{
-              answerStack.insert(n);
-              answerStack.insert(n.wireb);
-              findTruePath(next, c.second);
-              continue;
-            }
-          } else{
-            answerStack.insert(n);
-            answerStack.insert(n.wirea);
-            findTruePath(next, c.second);
-            continue;
-          }
-        }
     }
   }
 }
