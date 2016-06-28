@@ -1,4 +1,4 @@
-#include "stalib.h"
+#include "solver.h"
 
 void findTruePath(Gate* n, bool output, int count) {
   count++;
@@ -6,8 +6,7 @@ void findTruePath(Gate* n, bool output, int count) {
     return;
   Gate* next;
   vector<pair<bool, bool>>* choice = getChoice(n, output);
-  // c.first[0] is the first choice of a pin, c.first[1] is the first choice of b pin
-  Fast faster = getWhoIsFaster(Gate* n); //0 if a is faster, 1 if b is faster, 2 if same ,3 if dont know
+  Fast faster = getWhoIsFaster(Gate* n); // FAST_A, FAST_B, FAST_EQ, FAST_UNKNOWN
   if(faster == FAST_UNKNOWN) {answer_deck.setcheckpoint(n);}
   //check if table_1 or table_0 have bean down
   if(table_1 != null) {
@@ -20,7 +19,7 @@ void findTruePath(Gate* n, bool output, int count) {
 
   //deal with the a pin first
   for(auto c : choice) {
-    if(!conflictlist.cotains(n, c.first, c.second)) {
+    if(conflictList.find(make_tuple(n, c.first, c.second)) == conflictList.end()) {
       if(checkDelayCouldBeTrue(n, c, faster, 0)) {
         next = n.nexta;
         n.set_a_pin_input = c.first;
@@ -29,9 +28,9 @@ void findTruePath(Gate* n, bool output, int count) {
           if(checkIfInputConflict(next, c.first)) {
             continue;
           } else {
-            if(!conflictlist.cotains(n, c.first, !c.second)) {
+            if(conflictList.find(make_tuple(n, c.first, !c.second)) == conflictList.end()) {
               if(checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictlist.add(n, c.first, c.second);
+                conflictList.insert(make_tuple(n, c.first, c.second));
                 continue;
               } else{
                 answer_inpur[next.number] = c.first;
@@ -58,9 +57,9 @@ void findTruePath(Gate* n, bool output, int count) {
           }
         } else{
         //when next != input
-          if(!conflictlist.cotains(n, c.first, !c.second)) {
+          if(conflictList.find(make_tuple(n, c.first, !c.second)) == conflictList.end()) {
             if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictlist.add(n, c.first, c.second);
+              conflictList.insert(make_tuple(n, c.first, c.second));
               continue;
             } else{  answer_inpur[next.number] = c.second;
               answer_deck.insert(n);
@@ -81,7 +80,7 @@ void findTruePath(Gate* n, bool output, int count) {
 
   //deal with the b pin secand
   for(auto c : choice) {
-    if(!conflictlist.cotains(n, c.first, c.second)) {
+    if(!conflictList.find(make_tuple(n, c.first, c.second)) != conflictList.end()) {
       if(checkDelayCouldBeTrue(n, c, faster, 1)) {
         next = n.nextb;
         n.set_a_pin_input = c.first;
@@ -90,9 +89,9 @@ void findTruePath(Gate* n, bool output, int count) {
           if(checkIfInputConflict(next, c.second)) {
             continue;
           } else {
-            if(!conflictlist.cotains(n, c.first, c.second)) {
+            if(!conflictList.find(make_tuple(n, c.first, c.second)) != conflictList.end()) {
               if(!checkIfTwoPinConflict(n, c.first, c.second)) {
-                conflictlist.add(n, c.first, c.second);
+                conflictList.insert(make_tuple(n, c.first, c.second));
                 continue;
               } else{  answer_inpur[next.number] = c.second;
                 answer_deck.insert(n);
@@ -118,9 +117,9 @@ void findTruePath(Gate* n, bool output, int count) {
           }
         } else {
         //when next != input
-          if(!conflictlist.cotains(Gate* n, !c.first, c.second)) {
+          if(!conflictList.cotains(Gate* n, !c.first, c.second)) {
             if(checkIfTwoPinConflict(n, c.first, c.second)) {
-              conflictlist.add(n, c.first, c.second);
+              conflictList.insert(make_tuple(n, c.first, c.second));
               continue;
             } else{
               answer_deck.insert(n);
