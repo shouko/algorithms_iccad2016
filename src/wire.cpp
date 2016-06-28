@@ -10,3 +10,7 @@ void Wire::attachPin(Pin* pin) {
   }
   pin->setWire(this);
 }
+
+Gate* getInputGate() const {
+  return ins.begin()->second->getGate();
+}
