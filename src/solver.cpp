@@ -40,8 +40,8 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
               continue;
             } else{
               answerInput[next.number] = get<i>(c);
-              answerStack.insert(n);
-              answerStack.insert(n->getInPin(i)->getWire());
+              answerStackInsert(n);
+              answerStackInsert(n->getInPin(i)->getWire());
               if(answerStack.check) {
                 answerStack.print;
               }
@@ -60,8 +60,8 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
             if(!cond) {
               continue;
             } else{
-              answerStack.insert(n);
-              answerStack.insert(n->getInPin(i)->getWire());
+              answerStackInsert(n);
+              answerStackInsert(n->getInPin(i)->getWire());
               findTruePath(next, get<i>(c));
               continue;
             }
@@ -127,4 +127,16 @@ bool Solver::checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int 
     }
   }
   return false;
+}
+
+inline void Solver::answerStackInsert(Gate* g) {
+  AnsEntry entry;
+  entry.g = g;
+  answerStack.insert(make_pair(ANS_GATE, entry));
+}
+
+inline void Solver::answerStackInsert(Wire* w) {
+  AnsEntry entry;
+  wire.w = w;
+  answerStack.insert(make_pair(ANS_WIRE, entry));
 }
