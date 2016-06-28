@@ -15,13 +15,13 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
   Gate* next;
   vector<pair<bool, bool>>* choice = getChoice(n, output);
   Fast faster = getWhoIsFaster(Gate* n); // FAST_A, FAST_B, FAST_EQ, FAST_UNKNOWN
-  if(faster == FAST_UNKNOWN) {answer_deck.setcheckpoint(n);}
+  if(faster == FAST_UNKNOWN) {answer_stack.setCheckPoint(n);}
   //check if table_1 or table_0 have bean down
   if(table_1 != null) {
-    check_the_table(table_1, answer_deck);//check the input and print the answer
+    check_the_table(table_1, answer_stack);//check the input and print the answer
     return;
   } else if(table_0 != null) {
-    check_the_table(table_0, answer_deck);//check the input and print the answer
+    check_the_table(table_0, answer_stack);//check the input and print the answer
     return;
   }
 
@@ -42,24 +42,24 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
                 continue;
               } else{
                 answer_inpur[next.number] = c.first;
-                answer_deck.insert(n);
-                answer_deck.insert(n.wirea);
-                if(answer_deck.check) {
-                  answer_deck.print;
+                answer_stack.insert(n);
+                answer_stack.insert(n.wirea);
+                if(answer_stack.check) {
+                  answer_stack.print;
                 }
-                answer_deck.del;
-                answer_deck.del;
+                answer_stack.del;
+                answer_stack.del;
                 continue;
               }
             } else{
               answer_inpur[next.number] = c.first;
-              answer_deck.insert(n);
-              answer_deck.insert(n.wirea);
-              if(answer_deck.check) {
-                answer_deck.print;
+              answer_stack.insert(n);
+              answer_stack.insert(n.wirea);
+              if(answer_stack.check) {
+                answer_stack.print;
               }
-              answer_deck.del;
-              answer_deck.del;
+              answer_stack.del;
+              answer_stack.del;
               continue;
             }
           }
@@ -70,14 +70,14 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
               conflictListInsert(n, c.first, c.second);
               continue;
             } else{  answer_inpur[next.number] = c.second;
-              answer_deck.insert(n);
-              answer_deck.insert(n.wirea);
+              answer_stack.insert(n);
+              answer_stack.insert(n.wirea);
               findTruePath(next, c.first);
               continue;
             }
           } else{
-            answer_deck.insert(n);
-            answer_deck.insert(n.wirea);
+            answer_stack.insert(n);
+            answer_stack.insert(n.wirea);
             findTruePath(next, c.first);
             continue;
           }
@@ -102,24 +102,24 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
                 conflictListInsert(n, c.first, c.second);
                 continue;
               } else{  answer_inpur[next.number] = c.second;
-                answer_deck.insert(n);
-                answer_deck.insert(n.wireb);
-                if(answer_deck.check) {
-                  answer_deck.print;
+                answer_stack.insert(n);
+                answer_stack.insert(n.wireb);
+                if(answer_stack.check) {
+                  answer_stack.print;
                 }
-                answer_deck.del;
-                answer_deck.del;
+                answer_stack.del;
+                answer_stack.del;
                 continue;
               }
             } else {
               answer_inpur[next.number] = c.second;
-              answer_deck.insert(n);
-              answer_deck.insert(n.wireb);
-              if(answer_deck.check) {
-                answer_deck.print;
+              answer_stack.insert(n);
+              answer_stack.insert(n.wireb);
+              if(answer_stack.check) {
+                answer_stack.print;
               }
-              answer_deck.del;
-              answer_deck.del;
+              answer_stack.del;
+              answer_stack.del;
               continue;
             }
           }
@@ -130,14 +130,14 @@ void Solver::findTruePath(Gate* n, bool output, int count) {
               conflictListInsert(n, c.first, c.second);
               continue;
             } else{
-              answer_deck.insert(n);
-              answer_deck.insert(n.wireb);
+              answer_stack.insert(n);
+              answer_stack.insert(n.wireb);
               findTruePath(next, c.second);
               continue;
             }
           } else{
-            answer_deck.insert(n);
-            answer_deck.insert(n.wirea);
+            answer_stack.insert(n);
+            answer_stack.insert(n.wirea);
             findTruePath(next, c.second);
             continue;
           }
@@ -151,9 +151,9 @@ vector<pair<bool, bool>> Solver::getChoice(Gate* n, bool output) {
   GateType type = n->getType();
   if(type == GATE_NOT1) {
     if(output) {
-
+      vec.push_back(make_pair(0, 0));
     } else {
-
+      vec.push_back(make_pair(1, 0));
     }
   } else if(type == GATE_NOR2) {
     if(output) {
@@ -172,6 +172,7 @@ vector<pair<bool, bool>> Solver::getChoice(Gate* n, bool output) {
       vec.push_back(make_pair(1, 1))
     }
   }
+  return vec;
 }
 
 bool Solver::checkDelayCouldBeTrue(Gate* n, pair<bool, bool> c, int faster, int pin) {
