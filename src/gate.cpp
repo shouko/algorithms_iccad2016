@@ -24,3 +24,10 @@ const GateName Gate::getName() const {
 const GateType Gate::getType() const {
   return type;
 }
+
+void Gate::setCheck(bool toCheck) {
+  this->toCheck = toCheck;
+}
+const bool Gate::getCheck() const {
+  return toCheck;
+}

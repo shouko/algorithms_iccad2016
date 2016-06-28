@@ -5,6 +5,7 @@
 #include <vector>
 #include <tuple>
 #include <pair>
+#include <stack>
 #include "common.h"
 
 class Solver {
@@ -22,6 +23,7 @@ private:
   bool checkIfTwoPinConflict(Gate* n, pair<bool, bool> c);
   inline bool conflictListContains(Gate* n, bool a, bool b);
   inline void conflictListInsert(Gate* n, bool a, bool b);
+  stack<Wire*> answerStack;
 };
 
 #endif
