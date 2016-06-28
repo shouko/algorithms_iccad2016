@@ -25,3 +25,11 @@ const PinName Pin::getName() const {
 const PinType Pin::getType() const {
   return type;
 }
+
+void setVal(bool val) {
+  this->val = val;
+}
+
+const bool getVal() const {
+  return val;
+}
