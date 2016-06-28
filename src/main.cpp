@@ -5,6 +5,7 @@
 #include "gate.h"
 #include "wire.h"
 #include "graph.h"
+#include "solver.h"
 using namespace std;
 
 string gets_nc(stringstream &ss) {
@@ -71,5 +72,8 @@ int main() {
       }
     }
   }
+  int slack;
+  Solver solver(&graph, slack);
+//  solver.findTruePath(gate, output, 0);
   return 0;
 }
