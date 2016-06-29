@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -17,7 +18,7 @@ string gets_nc(stringstream &ss) {
   return tmp;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
   Graph graph;
   // read circuit
   string tmp;
@@ -72,7 +73,7 @@ int main() {
       }
     }
   }
-  int slack;
+  int slack = atoi(argv[1]);
   Solver solver(&graph, slack);
 //  solver.findTruePath(gate, output, 0);
   return 0;
