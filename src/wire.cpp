@@ -12,7 +12,17 @@ void Wire::attachPin(Pin* pin) {
 }
 
 Gate* Wire::getInputGate() const {
+  if(ins.empty()) {
+    return 0;
+  }
   return ins.begin()->second->getGate();
+}
+
+Gate* Wire::getOutputGate() const {
+  if(outs.empty()) {
+    return 0;
+  }
+  return outs.begin()->second->getGate();
 }
 
 const WireName Wire::getName() const {

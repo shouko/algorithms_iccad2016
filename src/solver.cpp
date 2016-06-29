@@ -146,3 +146,7 @@ Fast Solver::getWhoIsFaster(Gate* n) {
   // TODO
   return FAST_UNKNOWN;
 }
+
+void Solver::solve() {
+  
+}

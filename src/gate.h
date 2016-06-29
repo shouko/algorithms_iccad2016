@@ -3,10 +3,21 @@
 
 #include "common.h"
 #include <map>
+#include <vector>
 using namespace std;
 
 class Pin;
 class Wire;
+
+class RouteRow {
+public:
+  Pin* pin;
+  Gate* gate;
+  Wire* input;
+  int dist;
+  RouteRow(Pin* pin, Gate* gate, Wire* input, int dist) : pin(pin), gate(gate), input(input), dist(dist) {}
+  ~RouteRow() {}
+};
 
 class Gate {
 public:
@@ -21,6 +32,8 @@ public:
   Gate* getPrev(int num) const;
   Pin* getInPin(PinName name) const;
   Pin* getInPin(int num) const;
+  void deriveRoute();
+  vector<RouteRow> routeRecord;
 private:
   void attachPin(Pin* pin);
   map<PinName, Pin*> inPins;

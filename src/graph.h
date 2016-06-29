@@ -16,6 +16,7 @@ public:
   void addWire(WireName name, WireType type);
   Gate* addGate(GateName name, GateType type);
   void connectGateAndWire(Gate* gate, PinName pinName, WireName wireName);
+  void buildRoute();
 private:
   map<WireName, Wire*> ins;
   map<WireName, Wire*> outs;

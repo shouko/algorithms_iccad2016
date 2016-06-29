@@ -67,3 +67,26 @@ Pin* Gate::getInPin(int num) const {
     return 0;
   }
 }
+
+void Gate::deriveRoute() {
+  for(auto pin_it : inPins) {
+    Gate* g = pin_it.second->getWire()->getInputGate();
+    if(g != 0) {
+      for(RouteRow rr : g->routeRecord) {
+        RouteRow new_rr(pin_it.second, g, rr.input, rr.dist + 1);
+        routeRecord.push_back(new_rr);
+      }
+    } else {
+      // this gate is near input
+      RouteRow rr(pin_it.second, 0, pin_it.second->getWire(), 1);
+    }
+  }
+  for(auto pin_it : outPins) {
+    Gate* g = pin_it.second->getWire()->getOutputGate();
+    if(g != 0) {
+      g->deriveRoute();
+    } else {
+      // this gate is near output
+    }
+  }
+}

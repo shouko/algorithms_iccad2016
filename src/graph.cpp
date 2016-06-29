@@ -38,3 +38,9 @@ void Graph::connectGateAndWire(Gate* gate, PinName pinName, WireName wireName) {
   Wire* wire = getWire(wireName);
   wire->attachPin(pin);
 }
+
+void Graph::buildRoute() {
+  for(auto wire_it : ins) {
+    wire_it.second->getOutputGate()->deriveRoute();
+  }
+}
