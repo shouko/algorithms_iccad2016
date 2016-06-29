@@ -20,8 +20,8 @@ enum AnsEntryType {
 
 class AnswerStack {
 public:
-  AnswerStack();
-  ~AnswerStack();
+  AnswerStack() {};
+  ~AnswerStack() {};
   void insert(const Gate* g);
   void insert(const Wire* g);
   void print();
