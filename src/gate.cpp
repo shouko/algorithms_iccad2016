@@ -73,12 +73,11 @@ void Gate::deriveRoute() {
     Gate* g = pin_it.second->getWire()->getInputGate();
     if(g != 0) {
       for(RouteRow rr : g->routeRecord) {
-        RouteRow new_rr(pin_it.second, g, rr.input, rr.dist + 1);
-        routeRecord.push_back(new_rr);
+        routeRecordAdd(pin_it.second, g, rr.input, rr.dist + 1);
       }
     } else {
       // this gate is near input
-      RouteRow rr(pin_it.second, 0, pin_it.second->getWire(), 1);
+      routeRecordAdd(pin_it.second, 0, pin_it.second->getWire(), 1);
     }
   }
   for(auto pin_it : outPins) {
@@ -88,5 +87,25 @@ void Gate::deriveRoute() {
     } else {
       // this gate is near output
     }
+  }
+}
+
+void Gate::routeRecordAdd(Pin* pin, Gate* gate, Wire* input, int dist) {
+  RouteRow rr(pin, gate, input, dist);
+  routeRecord.push_back(rr);
+  size_t rowIndex = 0;
+  if(pin->getName() == 'B') {
+    rowIndex = 1;
+  }
+  if(routeRecordInfo[rowIndex][0] == 0) {
+    routeRecordInfo[rowIndex][0] = dist;
+    routeRecordInfo[rowIndex][1] = dist;
+    return;
+  }
+  if(dist < routeRecordInfo[rowIndex][0]) {
+    routeRecordInfo[rowIndex][0] = dist;
+  }
+  if(dist > routeRecordInfo[rowIndex][1]) {
+    routeRecordInfo[rowIndex][1] = dist;
   }
 }

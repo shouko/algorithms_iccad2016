@@ -21,7 +21,7 @@ public:
 
 class Gate {
 public:
-  Gate(GateName name, GateType type) : type(type), name(name), toCheck(0) {}
+  Gate(GateName name, GateType type) : type(type), name(name), routeRecordInfo {{0, 0}, {0, 0}}, toCheck(0) {}
   ~Gate() {}
   Pin* addPin(PinName name, PinType type);
   const string getName() const;
@@ -34,8 +34,10 @@ public:
   Pin* getInPin(int num) const;
   void deriveRoute();
   vector<RouteRow> routeRecord;
+  int routeRecordInfo[2][2];
 private:
   void attachPin(Pin* pin);
+  void routeRecordAdd(Pin* pin, Gate* gate, Wire* input, int dist);
   map<PinName, Pin*> inPins;
   map<PinName, Pin*> outPins;
   GateType type;
