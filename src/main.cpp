@@ -42,6 +42,8 @@ int main(int argc, char* argv[]) {
         type = WIRE_OUTPUT;
       } else if(tmp == "wire") {
         type = WIRE_NORMAL;
+      } else {
+        continue;
       }
       while(ss.peek() != -1) {
         tmp = gets_nc(ss);
@@ -61,13 +63,12 @@ int main(int argc, char* argv[]) {
       }
       ss >> tmp; // gate name
       Gate* gate = graph.addGate(tmp, type);
-      ss >> tmp; // '('
       while(ss.peek() != -1) {
-        tmp = gets_nc(ss); // parameters like .A(b8)
-        if(tmp[0] != ')') {
-          PinName name = tmp[1];
-          tmp.erase(0, tmp.find_first_of('('));
-          tmp.pop_back(); // pop out trailing ')'
+        ss.ignore(16, '.');
+        if(ss.peek() != -1) {
+          PinName name = ss.get();
+          ss.get(); // '('
+          getline(ss, tmp, ')');
           graph.connectGateAndWire(gate, name, tmp);
         }
       }

@@ -6,7 +6,6 @@ void Pin::setGate(Gate* gate) {
 }
 
 void Pin::setWire(Wire* wire) {
-  wire->attachPin(this);
   this->wire = wire;
 }
 
